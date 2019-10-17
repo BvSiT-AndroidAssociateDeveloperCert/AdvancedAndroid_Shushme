@@ -9,8 +9,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- TODO (1) Add meta-data tag with API key AIzaSyD1vvAhhpK_KiVkXccv30c0w6WxTE13Oi4 -->
+        <!-- TODO (1) Add meta-data tag with API key -->
 
+        <!-- BvS: You need to create a resource string key for the API key
+             and put it in a separate xml. This allows you to prevent the file
+             to be added to a git repository by adding it to .ignore
+        -->
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key" />
 
