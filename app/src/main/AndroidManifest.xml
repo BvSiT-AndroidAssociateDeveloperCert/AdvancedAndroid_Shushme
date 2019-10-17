@@ -8,12 +8,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- TODO (1) Add meta-data tag with API key -->
+
         <activity android:name="com.example.android.shushme.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- TODO (2) Add uses-permission tags for INTERNET and ACCESS_FINE_LOCATION -->
 
         <provider
             android:name="com.example.android.shushme.provider.PlaceContentProvider"
