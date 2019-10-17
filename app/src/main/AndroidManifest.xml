@@ -11,6 +11,10 @@
 
         <!-- TODO (1) Add meta-data tag with API key -->
 
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyD1vvAhhpK_KiVkXccv30c0w6WxTE13Oi4" />
+
+
         <activity android:name="com.example.android.shushme.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,5 +30,8 @@
             android:exported="false"/>
 
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
 </manifest>
