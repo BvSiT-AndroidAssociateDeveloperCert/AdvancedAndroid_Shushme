@@ -9,10 +9,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- TODO (1) Add meta-data tag with API key -->
+        <!-- TODO (1) Add meta-data tag with API key AIzaSyD1vvAhhpK_KiVkXccv30c0w6WxTE13Oi4 -->
 
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD1vvAhhpK_KiVkXccv30c0w6WxTE13Oi4" />
+            android:value="@string/api_key" />
 
 
         <activity android:name="com.example.android.shushme.MainActivity">
