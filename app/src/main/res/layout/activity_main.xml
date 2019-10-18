@@ -11,7 +11,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.-->
 
-<!-- TODO (6) Add a LinearLayout that contains a checkbox to grant the location permissions
+<!-- DONE (6) Add a LinearLayout that contains a checkbox to grant the location permissions
                         and set the checkbox click listener to call onLocationPermissionClicked -->
 <!--
     - In activity_main.xml

@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- TODO (1) Add meta-data tag with API key -->
+        <!-- DONE (1) Add meta-data tag with API key -->
 
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD1vvAhhpK_KiVkXccv30c0w6WxTE13Oi4" />
@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
 
-        <!-- TODO (2) Add uses-permission tags for INTERNET and ACCESS_FINE_LOCATION -->
+        <!-- DONE (2) Add uses-permission tags for INTERNET and ACCESS_FINE_LOCATION -->
 
         <provider
             android:name="com.example.android.shushme.provider.PlaceContentProvider"

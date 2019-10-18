@@ -74,6 +74,17 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         Toast.makeText(this, getString(R.string.location_permissions_granted_message), Toast.LENGTH_LONG).show();
+
+        //1. DEPRECATED (1) Create a PlacePicker.IntentBuilder and call startActivityForResult
+        // TODO (1) Create a AutoComplete .IntentBuilder and call startActivityForResult
+        // - Initialize also Places !!
+        //2. DEPRECATED (2) Handle GooglePlayServices exceptions
+
+        //3. DEPRECATED (3) Implement onActivityResult and check that the requestCode is PLACE_PICKER_REQUEST
+        //TODO (3) Implement onActivityResult and check that the requestCode is AUTOCOMPLETE_REQUEST_CODE
+        //        - create a constant AUTOCOMPLETE_REQUEST_CODE =  (e.g.) 1;
+        //4. DEPRECATED (4) In onActivityResult, use PlacePicker.getPlace to extract the Place ID and insert it into the DB
+        //TODO (4) In onActivityResult, use AutoComplete.Autocomplete.getPlaceFromIntent  to extract the Place ID and insert it into the DB
     }
 
     @Override
