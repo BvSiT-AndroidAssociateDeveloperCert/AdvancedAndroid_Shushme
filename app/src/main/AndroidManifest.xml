@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- TODO (1) Add meta-data tag with API key -->
+        <!-- DONE (1) Add meta-data tag with API key -->
 
         <!-- BvS: You need to create a resource string key for the API key
              and put it in a separate xml. This allows you to prevent the file
@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
 
-        <!-- TODO (2) Add uses-permission tags for INTERNET and ACCESS_FINE_LOCATION -->
+        <!-- DONE (2) Add uses-permission tags for INTERNET and ACCESS_FINE_LOCATION -->
 
         <provider
             android:name="com.example.android.shushme.provider.PlaceContentProvider"

@@ -27,6 +27,11 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
 
     private Context mContext;
 
+    // TODO (3) Modify the Adapter to take a PlaceBuffer in the constructor
+
+    // TODO (4) Take a PlaceBuffer as an input and store it as a local private member mPlaces
+
+
     /**
      * Constructor using the context and the db cursor
      *
@@ -59,9 +64,11 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
      */
     @Override
     public void onBindViewHolder(PlaceViewHolder holder, int position) {
-
+        // TODO (6) Implement onBindViewHolder to set the view holder's Name and Address text fields
+        // from the Place object at the specified position in mPlaces
     }
 
+    //TODO (7) Implement a public method swapPlaces that replaces the current mPlaces PlaceBuffer with a new one
 
     /**
      * Returns the number of items in the cursor
@@ -70,6 +77,7 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
      */
     @Override
     public int getItemCount() {
+        // TODO (5) Update getItemCount to return mPlaces's item count
         return 0;
     }
 

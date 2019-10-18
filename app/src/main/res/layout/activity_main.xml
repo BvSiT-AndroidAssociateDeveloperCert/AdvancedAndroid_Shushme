@@ -11,7 +11,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.-->
 
-<!-- TODO (6) Add a LinearLayout that contains a checkbox to grant the location permissions
+<!-- DONE (6) Add a LinearLayout that contains a checkbox to grant the location permissions
                         and set the checkbox click listener to call onLocationPermissionClicked -->
 <!--
     - In activity_main.xml
@@ -22,6 +22,8 @@
 
     Note: in the org solution the checkbox is NOT aligned to the right under the switch
 -->
+
+<!-- TODO (9) Add the "Powered by Google" logo and a link to Google's privacy policy here -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
