@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -36,12 +37,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android.shushme.bvsit.DbUtils;
 import com.example.android.shushme.provider.PlaceContract;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.FetchPhotoRequest;
+import com.google.android.libraries.places.api.net.FetchPhotoResponse;
+import com.google.android.libraries.places.api.net.FetchPlaceRequest;
+import com.google.android.libraries.places.api.net.FetchPlaceResponse;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
+import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
+import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -61,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     // Member variables
     private PlaceListAdapter mAdapter;
     private RecyclerView mRecyclerView;
+    private PlacesClient mPlacesClient;
 
     /**
      * Called when the activity is starting
@@ -72,29 +86,67 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // TODO (1) Implement a method called refreshPlacesData that:        // - Queries all the locally stored Places IDs
+        // TODO (1) Implement a method called refreshPlacesData that:
+        // - Queries all the locally stored Places IDs
         // - Calls Places.GeoDataApi.getPlaceById with that list of IDs
         // Note: When calling Places.GeoDataApi.getPlaceById use the same GoogleApiClient created
         // in MainActivity's onCreate (you will have to declare it as a private member)
 
         //TODO (8) Set the getPlaceById callBack so that onResult calls the Adapter's swapPlaces with the result
-        //TODO (2) call refreshPlacesData in GoogleApiClient's onConnected and in the Add New Place button click event
-
-
-
+        //DEPRECATED (2) call refreshPlacesData in GoogleApiClient's onConnected and in the Add New Place button click event
+        //TODO (2) call refreshPlacesData in onCreate and in the Add New Place button click event
 
         // Set up the recycler view
         mRecyclerView = (RecyclerView) findViewById(R.id.places_list_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new PlaceListAdapter(this);
+        mAdapter = new PlaceListAdapter(this,null);  //!!
         mRecyclerView.setAdapter(mAdapter);
+
+
+
 
         //BvS: See https://developers.google.com/places/android-sdk/start
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getString(R.string.api_key));
         }
-
+        mPlacesClient = Places.createClient(this); //!!
+        refreshPlacesData();  //updates the mRecyclerView adapter
     }
+
+    private void refreshPlacesData(){
+
+
+        Cursor cursor  = getContentResolver().query(PlaceContract.PlaceEntry.CONTENT_URI,null,null,null,null);
+        //? Check for null or 0?
+        if (cursor==null || cursor.getCount()==0) return;
+
+        List<String> placeIds = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            placeIds.add(cursor.getString(cursor.getColumnIndex(PlaceContract.PlaceEntry.COLUMN_PLACE_ID)));
+        }
+
+        List<Place.Field> placeFields = new ArrayList<>();
+        placeFields.add(Place.Field.NAME);
+        placeFields.add(Place.Field.ADDRESS);
+
+        final List<Place> places = new ArrayList<>();
+
+        for (String placeId : placeIds){
+            FetchPlaceRequest fetchPlaceRequest = FetchPlaceRequest.builder(placeId,placeFields).build();
+            //Or FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeID, placeFields);
+            Task<FetchPlaceResponse> fetchPlaceResponseTask = mPlacesClient.fetchPlace(fetchPlaceRequest);
+
+            fetchPlaceResponseTask.addOnSuccessListener(new OnSuccessListener<FetchPlaceResponse>() {
+                @Override
+                public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
+                    places.add(fetchPlaceResponse.getPlace());
+                    mAdapter.swapPlaces(places); //Seems not very efficient?
+                }
+            });
+        }
+        Log.d("148 : ", "refreshPlacesData: mPlaces.size() = " + places.size());
+    }
+
 
     public void onLocationPermissionClicked(View view) {
         ActivityCompat.requestPermissions(MainActivity.this,
@@ -139,6 +191,8 @@ public class MainActivity extends AppCompatActivity {
                 getContentResolver().insert(PlaceContract.PlaceEntry.CONTENT_URI, contentValues);
                 //refreshPlacesData();
                 DbUtils.dumpTable(this,PlaceContract.PlaceEntry.CONTENT_URI); //debug
+
+                refreshPlacesData();
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
